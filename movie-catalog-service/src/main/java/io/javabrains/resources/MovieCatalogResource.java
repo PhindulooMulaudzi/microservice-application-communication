@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,9 @@ import io.javabrains.models.Rating;
 @RestController
 @RequestMapping("/catalog")
 public class MovieCatalogResource {
+	@Autowired
+	private RestTemplate restTemplate;
+
 	
 	/*
 	 * Here we are mapping the Rest endpoint /catalog/$userId remember the curly braces
@@ -47,13 +51,11 @@ public class MovieCatalogResource {
 		);
 		
 		/*
-		 * We will also create a RestTemplate to call the movieInfo service
+		 * We will use a RestTemplate to call the movieInfo service
 		 * 
 		 * The movie info needs to be called fofr every movie the user has watched
 		 */
-		
-		RestTemplate restTemplate = new RestTemplate();
-		
+				
 		List<CatalogItem> catalogItems = new ArrayList<>();
 		
 		for (Rating rating : ratings) {
